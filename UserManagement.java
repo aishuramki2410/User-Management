@@ -6,14 +6,14 @@ class User {
     private String email;
     private String mobile;
     private String password;
-
+    // Constructor
     public User(String name, String email, String mobile, String password) {
         this.name = name;
         this.email = email;
         this.mobile = mobile;
         this.password = password;
     }
-
+    // Getters
     public String getEmail() { return email; }
     public String getMobile() { return mobile; }
     public String getPassword() { return password; }
@@ -21,11 +21,12 @@ class User {
 
 public class UserManagement {
     private Map<String, User> registeredUsers = new HashMap<>();
-
+    // Register user by email and mobile
     public String registerUser(User user) {
         if (registeredUsers.containsKey(user.getEmail())) {
             return "Error: Email already registered.";
         }
+        // Check if mobile number already exists
         if (registeredUsers.containsKey(user.getMobile())) {
             return "Error: Mobile number already registered.";
         }
@@ -39,7 +40,7 @@ public class UserManagement {
         }
         return "Account created successfully.";
     }
-
+    // Login validation
     public String login(String email, String password) {
         User user = registeredUsers.get(email);
         if (user != null && user.getPassword().equals(password)) {
@@ -47,7 +48,7 @@ public class UserManagement {
         }
         return "Invalid credentials. Try again.";
     }
-
+    // Check if user is already registered
     public boolean isUserRegistered(String email) {
         return registeredUsers.containsKey(email);
     }
