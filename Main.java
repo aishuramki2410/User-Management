@@ -21,6 +21,7 @@ public class Main{
 
             switch (choice) {
                 case 1:
+                    // User Registration
                     System.out.println("\n--- User Registration ---");
                     System.out.print("Enter Name: ");
                     String name = sc.nextLine();
@@ -34,7 +35,7 @@ public class Main{
                     User user = new User(name, email, mobile, password);
                     String regRes = userManagement.registerUser(user);
                     System.out.println(regRes);
-
+                   // If registration succeeded, verify code
                     if (!regRes.startsWith("Error")) {
                         System.out.print("Enter Verification Code (expected: " + VERIFICATION_CODE + "): ");
                         String code = sc.nextLine();
@@ -43,6 +44,7 @@ public class Main{
                     break;
 
                 case 2:
+                    // User Login
                     System.out.println("\n--- User Login ---");
                     System.out.print("Enter Email: ");
                     String loginEmail = sc.nextLine();
@@ -57,6 +59,7 @@ public class Main{
                     break;
 
                 case 3:
+                    // Profile creation/update (only after login)
                     if (loggedInEmail == null) {
                         System.out.println("Please login first to manage your profile.");
                         break;
@@ -71,7 +74,7 @@ public class Main{
                     Profile profile = new Profile(loggedInEmail, profileName, address);
                     profileManagement.addProfile(profile);
                     System.out.println("Profile created successfully.");
-
+                    // Ask if user wants to update
                     System.out.print("Do you want to update your profile now? (yes/no): ");
                     String updateChoice = sc.nextLine();
                     if (updateChoice.equalsIgnoreCase("yes")) {
@@ -86,7 +89,7 @@ public class Main{
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
-
+            // Ask if user wants to continue
             System.out.print("\nDo you want to continue? (yes/no): ");
             String cont = sc.nextLine();
             if (!cont.equalsIgnoreCase("yes")) {
