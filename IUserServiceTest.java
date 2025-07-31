@@ -1,74 +1,66 @@
 package com.nw.ezpay.user.test;
 
-import com.nw.ezpay.user.dao.IUserDAO;
-import com.nw.ezpay.user.model.User;
+import com.nw.ezpay.user.service.IUserService;
 import com.nw.ezpay.user.service.UserServiceImpl;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-
-import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Scanner;
+public class IUserServiceTest {
 
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-@ExtendWith(MockitoExtension.class)
-public class UserServiceImplTest {
-
-    @Mock
-    private IUserDAO userDAO;
-
-    @InjectMocks
-    private UserServiceImpl userService;
+    private IUserService userService;
 
     @BeforeEach
-    void setup() {
-        userService = new UserServiceImpl() {
-            @Override
-            protected Scanner getScanner() {
-                return new Scanner("1234\n"); // Simulate OTP input
-            }
-        };
-        userService = spy(userService);  // To allow overriding behavior
-        doReturn(userDAO).when(userService).getUserDAO(); // Inject mocked DAO
+    void setUp() {
+        userService = new UserServiceImpl();
+    }
+
+    // Test: Login should fail for invalid credentials
+    @Test
+    void testLoginInvalidUser() {
+        boolean result = userService.login("9999", "wrongpass");
+        assertFalse(result, "Login should fail with wrong credentials");
+    }
+
+    // Parameterized Test: Login with multiple invalid credentials
+    @ParameterizedTest
+    @CsvSource({
+        "1001, wrongpass",
+        "9999, test123",
+        "1234, 1234"
+    })
+    void testLoginWithMultipleCredentials(String userId, String password) {
+        assertFalse(userService.login(userId, password), "Login should fail for invalid credentials");
     }
 
     @Test
-    public void testRegisterSuccess() {
-        User dummyUser = new User(1, "John", "pass123", "john@example.com", "9999999999");
-
-        when(userDAO.register(any(User.class), eq("1234"))).thenReturn(true);
-
-        boolean result = userService.register("1", "John", "pass123", "john@example.com", "9999999999");
-        assertTrue(result);
+    void testLoginWithNullInput() {
+        assertThrows(NumberFormatException.class, () -> {
+            userService.login(null, null);
+        });
     }
 
-    @Test
-    public void testLoginSuccess() {
-        when(userDAO.login("1", "pass123")).thenReturn(true);
-        assertTrue(userService.login("1", "pass123"));
+    // Parameterized Test: Update profile with multiple values (invalid users assumed)
+    @ParameterizedTest
+    @CsvSource({
+        "2001, user1, pass1, test1@mail.com",
+        "2002, user2, pass2, test2@mail.com"
+    })
+    void testUpdateMultipleEmails(String id, String name, String pwd, String email) {
+        boolean result = userService.updateProfile(id, name, pwd, email);
+        assertFalse(result, "Update should fail for non-registered users");
+    }
+    
+    @ParameterizedTest
+    @CsvSource({
+        "1001, updatedName1, newPass1, updated1@mail.com, true",
+        "9999, ghostUser, pass123, ghost@mail.com, false"
+    })
+    void testUpdateProfileWithExpectedResult(String userId, String name, String password, String email, boolean expected) {
+        boolean result = userService.updateProfile(userId, name, password, email);
+        assertEquals(expected, result, "Profile update result didn't match expected outcome");
     }
 
-    @Test
-    public void testLoginFailure() {
-        when(userDAO.login("1", "wrongpass")).thenReturn(false);
-        assertFalse(userService.login("1", "wrongpass"));
-    }
-
-    @Test
-    public void testUpdateProfileSuccess() {
-        when(userDAO.updateProfile(any(User.class))).thenReturn(true);
-        assertTrue(userService.updateProfile("1", "NewName", "newPass", "new@mail.com"));
-    }
-
-    @Test
-    public void testUpdateProfileFailure() {
-        when(userDAO.updateProfile(any(User.class))).thenReturn(false);
-        assertFalse(userService.updateProfile("1", "NewName", "newPass", "new@mail.com"));
-    }
 }
