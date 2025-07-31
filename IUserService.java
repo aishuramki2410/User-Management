@@ -12,7 +12,6 @@ package com.nw.ezpay.user.service;
  * <p>Each method takes user data as input and returns a boolean value indicating 
  * success or failure of the operation.</p>
  * 
- * @author [Your Name]
  * @version 1.0
  */
 public interface IUserService {
