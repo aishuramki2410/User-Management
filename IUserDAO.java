@@ -14,7 +14,6 @@ import com.nw.ezpay.user.model.User;
  * <p>Common use cases include registering a new user, verifying login credentials,
  * validating a one-time password (OTP), and updating user information.</p>
  * 
- * @author [Your Name]
  * @version 1.0
  */
 public interface IUserDAO {
