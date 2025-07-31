@@ -1,36 +1,34 @@
 package com.nw.ezpay.user.model;
 
 public class User {
-    private int userId;
     private String username;
     private String password;
-    private String email;
-    private String mobileNumber;
 
-    // Constructors
-    public User() {}
-
-    public User(int userId, String username, String password, String email, String mobileNumber) {
-        this.userId = userId;
+    // Constructor
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.email = email;
-        this.mobileNumber = mobileNumber;
     }
 
     // Getters and Setters
-    public int getUserId() { return userId; }
-    public void setUserId(int userId) { this.userId = userId; }
+    public String getUsername() {
+        return username;
+    }
 
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    public String getPassword() {
+        return password;
+    }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-    public String getMobileNumber() { return mobileNumber; }
-    public void setMobileNumber(String mobileNumber) { this.mobileNumber = mobileNumber; }
+    // Authentication logic (optional)
+    public boolean authenticate(String inputUsername, String inputPassword) {
+        return this.username.equals(inputUsername) && this.password.equals(inputPassword);
+    }
 }
