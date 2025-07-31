@@ -17,7 +17,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * <p>These tests help ensure the correctness and robustness of business logic 
  * implemented in the IUserService.</p>
  * 
- * @author [Your Name]
  * @version 1.0
  */
 public class IUserServiceTest {
