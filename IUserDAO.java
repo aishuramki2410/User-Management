@@ -15,6 +15,7 @@ import com.nw.ezpay.user.model.User;
  * validating a one-time password (OTP), and updating user information.</p>
  * 
  * @version 1.0
+ * @author Mehak
  */
 public interface IUserDAO {
 
