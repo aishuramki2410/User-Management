@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * <p>These tests help ensure the correctness and robustness of business logic 
  * implemented in the IUserService.</p>
  * 
+ * @author Yashwanth
  * @version 1.0
  */
 public class IUserServiceTest {
