@@ -14,7 +14,7 @@ import java.sql.SQLException;
  * 
  * <p><b>Note:</b> Ensure that the Oracle JDBC driver is in the classpath and
  * the database is up and running.</p>
- * @author [Your Name]
+ * @author Yashwanth
  * @version 1.0
  */
 public class DBUtil {
