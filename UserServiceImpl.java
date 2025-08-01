@@ -11,6 +11,8 @@ import java.util.Scanner;
  * UserServiceImpl provides the service-layer logic for user operations such as
  * registration, login, and profile update. It acts as a bridge between the
  * presentation/UI layer and the data access layer (DAO).
+ *
+ * @author Amirdha
  */
 public class UserServiceImpl implements IUserService {
 
