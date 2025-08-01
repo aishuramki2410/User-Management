@@ -2,11 +2,16 @@ package com.nw.ezpay.user.test;
 
 import com.nw.ezpay.user.service.IUserService;
 import com.nw.ezpay.user.service.UserServiceImpl;
-import org.junit.jupiter.api.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 /**
  * Unit test class for testing the {@link IUserService} implementation.
