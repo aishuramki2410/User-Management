@@ -5,6 +5,8 @@ package com.nw.ezpay.user.model;
  * 
  * <p>This model class holds the necessary user information for registration,
  * login, and profile update functionality.</p>
+ *
+ * @author Aishwarya
  */
 public class User {
 
