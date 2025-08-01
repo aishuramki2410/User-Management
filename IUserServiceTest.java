@@ -87,13 +87,18 @@ public class IUserServiceTest {
     @ParameterizedTest
     @CsvSource({
         "2001, user1, pass1, test1@mail.com",
-        "2002, user2, pass2, test2@mail.com"
+        "2002, user2, pass2, test2@mail.com",
+        "2003, , pass3, test3@mail.com",                      // Empty name
+        "2004, user4, , test4@mail.com",                      // Empty password
+        "2005, user5, pass5, ",                               // Empty email
+        "2006, user6, pass6, invalid-email-format",           // Invalid email
+        "2007, user7, pass7, test7@invalid@domain.com",       // Multiple '@' signs
+        "2008, verylonguseridexceedinglimit, user8, pass8, test8@mail.com" // Very long ID
     })
     void testUpdateMultipleEmails(String id, String name, String pwd, String email) {
         boolean result = userService.updateProfile(id, name, pwd, email);
-        assertFalse(result, "Update should fail for non-registered users");
+        assertFalse(result, "Update should fail for non-registered or malformed input users");
     }
-
     /**
      * Parameterized test: Validates profile update with expected result.
      * Helps test both valid and invalid scenarios in one test.
