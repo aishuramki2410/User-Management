@@ -1,25 +1,68 @@
+/*
+---------------------------------------------------------------------------------
+--  File        : user_schema.sql
+--  Description : SQL script to create user-related tables and a trigger
+--                for managing user data, OTP verification, and profile info.
+--  Author      : Aishwarya
+---------------------------------------------------------------------------------
+*/
+
+-- ============================================================================
+-- TABLE: users_tab
+-- Purpose : Stores core user information like login credentials and contact info.
+-- Notes   :
+--   - Primary Key: user_id
+--   - NOT NULL constraints ensure required fields are always provided
+-- ============================================================================
+
 CREATE TABLE users_tab (
-    user_id NUMBER CONSTRAINT user_id_pk PRIMARY KEY,
-    username VARCHAR2(50) CONSTRAINT user_username_nn NOT NULL,
-    password VARCHAR2(50) CONSTRAINT user_password_nn NOT NULL,
-    email VARCHAR2(100) CONSTRAINT user_email_nn NOT NULL,
-    mobile_number VARCHAR2(15)
+    user_id NUMBER CONSTRAINT user_id_pk PRIMARY KEY,              -- Unique user ID
+    username VARCHAR2(50) CONSTRAINT user_username_nn NOT NULL,    -- Username for login
+    password VARCHAR2(50) CONSTRAINT user_password_nn NOT NULL,    -- Password (should be encrypted in practice)
+    email VARCHAR2(100) CONSTRAINT user_email_nn NOT NULL,         -- User's email address
+    mobile_number VARCHAR2(15)                                      -- Optional mobile number
 );
 
+
+-- ============================================================================
+-- TABLE: verification_codes_tab
+-- Purpose : Stores OTP (One-Time Password) codes for user verification.
+-- Notes   :
+--   - Foreign Key: user_id references users_tab
+--   - expiration_time ensures code is valid only for a limited period
+-- ============================================================================
 
 CREATE TABLE verification_codes_tab (
-    user_id NUMBER CONSTRAINT fk_vc_user_id REFERENCES users_tab(user_id),
-    otp VARCHAR2(6),
-    expiration_time TIMESTAMP
+    user_id NUMBER CONSTRAINT fk_vc_user_id REFERENCES users_tab(user_id),  -- FK to users_tab
+    otp VARCHAR2(6),                                                        -- 4-6 digit verification code
+    expiration_time TIMESTAMP                                               -- Expiry time for the OTP
 );
 
+
+-- ============================================================================
+-- TABLE: user_profiles_tab
+-- Purpose : Stores extended or profile-related data for users.
+-- Notes   :
+--   - One-to-one relationship with users_tab
+--   - Email copied initially using a trigger (can be extended with more fields)
+-- ============================================================================
 
 CREATE TABLE user_profiles_tab (
-    user_id NUMBER CONSTRAINT pk_user_profiles PRIMARY KEY,
-    email VARCHAR2(100),
-    CONSTRAINT fk_user_profiles_user_id FOREIGN KEY (user_id) REFERENCES users_tab(user_id)
+    user_id NUMBER CONSTRAINT pk_user_profiles PRIMARY KEY,                  -- Same ID as users_tab (1:1 mapping)
+    email VARCHAR2(100),                                                    -- Email field (initially copied, may differ later)
+    CONSTRAINT fk_user_profiles_user_id FOREIGN KEY (user_id)               -- FK linking to users_tab
+        REFERENCES users_tab(user_id)
 );
 
+
+-- ============================================================================
+-- TRIGGER: trg_insert_user_profile
+-- Purpose : Automatically create a user profile record when a new user is added.
+-- Notes   :
+--   - Fires AFTER INSERT on users_tab
+--   - Populates user_profiles_tab with user_id and email
+--   - Ensures every new user has a corresponding profile entry
+-- ============================================================================
 
 CREATE OR REPLACE TRIGGER trg_insert_user_profile
 AFTER INSERT ON users_tab
