@@ -1,7 +1,13 @@
 package com.nw.ezpay.user.dao;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import com.nw.ezpay.user.model.User;
+
 
 /**
  * UserDAOImpl provides the concrete implementation of the IUserDAO interface.
