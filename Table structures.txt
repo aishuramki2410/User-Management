@@ -1,0 +1,31 @@
+CREATE TABLE users_tab (
+    user_id NUMBER CONSTRAINT user_id_pk PRIMARY KEY,
+    username VARCHAR2(50) CONSTRAINT user_username_nn NOT NULL,
+    password VARCHAR2(50) CONSTRAINT user_password_nn NOT NULL,
+    email VARCHAR2(100) CONSTRAINT user_email_nn NOT NULL,
+    mobile_number VARCHAR2(15)
+);
+
+
+CREATE TABLE verification_codes_tab (
+    user_id NUMBER CONSTRAINT fk_vc_user_id REFERENCES users_tab(user_id),
+    otp VARCHAR2(6),
+    expiration_time TIMESTAMP
+);
+
+
+CREATE TABLE user_profiles_tab (
+    user_id NUMBER CONSTRAINT pk_user_profiles PRIMARY KEY,
+    email VARCHAR2(100),
+    CONSTRAINT fk_user_profiles_user_id FOREIGN KEY (user_id) REFERENCES users_tab(user_id)
+);
+
+
+CREATE OR REPLACE TRIGGER trg_insert_user_profile
+AFTER INSERT ON users_tab
+FOR EACH ROW
+BEGIN
+    INSERT INTO user_profiles_tab (user_id, email)
+    VALUES (:NEW.user_id, :NEW.email);
+END;
+/
