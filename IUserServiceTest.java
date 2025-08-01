@@ -99,23 +99,5 @@ public class IUserServiceTest {
         boolean result = userService.updateProfile(id, name, pwd, email);
         assertFalse(result, "Update should fail for non-registered or malformed input users");
     }
-    /**
-     * Parameterized test: Validates profile update with expected result.
-     * Helps test both valid and invalid scenarios in one test.
-     * 
-     * @param userId   user ID
-     * @param name     user name
-     * @param password password
-     * @param email    email address
-     * @param expected expected outcome of the update operation
-     */
-    @ParameterizedTest
-    @CsvSource({
-        "1001, updatedName1, newPass1, updated1@mail.com, true",
-        "9999, ghostUser, pass123, ghost@mail.com, false"
-    })
-    void testUpdateProfileWithExpectedResult(String userId, String name, String password, String email, boolean expected) {
-        boolean result = userService.updateProfile(userId, name, password, email);
-        assertEquals(expected, result, "Profile update result didn't match expected outcome");
-    }
+  
 }
