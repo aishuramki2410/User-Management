@@ -19,6 +19,8 @@ import java.util.Scanner;
  * as the concrete implementation to perform user operations.</p>
  * 
  * <p>All user input is handled through the console using {@link Scanner}.</p>
+ *
+ * @author Aishwarya
  */
 public class Main {
 
