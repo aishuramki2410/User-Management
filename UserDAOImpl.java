@@ -13,6 +13,8 @@ import com.nw.ezpay.user.model.User;
  * UserDAOImpl provides the concrete implementation of the IUserDAO interface.
  * It handles all database operations related to the User like registration, login,
  * OTP validation, and profile updates using JDBC with Oracle DB.
+ *
+ * @author Mehak
  */
 public class UserDAOImpl implements IUserDAO {
 
