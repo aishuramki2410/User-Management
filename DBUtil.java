@@ -14,16 +14,6 @@ import java.sql.SQLException;
  * 
  * <p><b>Note:</b> Ensure that the Oracle JDBC driver is in the classpath and
  * the database is up and running.</p>
- * 
- * Usage example:
- * <pre>
- * try (Connection conn = DBUtil.getConnection()) {
- *     // Use the connection
- * } catch (SQLException e) {
- *     e.printStackTrace();
- * }
- * </pre>
- * 
  * @author [Your Name]
  * @version 1.0
  */
